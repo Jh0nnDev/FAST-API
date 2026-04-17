@@ -1,5 +1,8 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from pydantic import BaseModel
+from sqlalchemy.orm import Session
+from database import SessionLocal
+import models
 
 app = FastAPI()
 
@@ -7,12 +10,21 @@ class Tarefa(BaseModel):
     id: int
     titulo_tarefa: str
 
-@app.get("/tarefas", response_model=list[Tarefa])
-def inicio():
-    return [
-            {"id": 1, "titulo_tarefa": "Comprar leite"},
-            {"id": 2, "titulo_tarefa": "Jogar lixo fora"},
-            {"id": 3, "titulo_tarefa": "Fazer feira"}
-    ]
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
-        
+@app.get("/tarefas", response_model=list[Tarefa])
+def buscar_tarefas(db: Session = Depends(get_db)):
+    tarefas = db.query(models.Tarefa).all()
+    return tarefas
+
+@app.post("/tarefas", response_model = Tarefa)
+def criar_tarefa(tarefa: Tarefa, db: Session = Depends(get_db)):
+    nova_tarefa = models.Tarefa(titulo_tarefa=tarefa.titulo_tarefa)
+    db.add(nova_tarefa)
+    db.commit()
+    return nova_tarefa 
