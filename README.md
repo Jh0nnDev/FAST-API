@@ -10,11 +10,12 @@ FAST API criada com Python para operações de CRUD, usando MySQL como banco de 
 
 ## 🚀 Como rodar
 
-1.Ter o Python instalado
-2.Fazer o Download do Uvicorn,Pydanic e Sqlalchemy
-3.Ter o MySQL instalado 
-4.Instalar o Postman para testes
-5.Configurar o banco de dados no arquivo database.py
+1. Ter o Python instalado
+2. Fazer o Download do Uvicorn,Pydanic e Sqlalchemy
+3. Ter o MySQL instalado 
+4. Instalar o Postman para testes
+5. Configurar o banco de dados no arquivo database.py
+6. Configurar a sua tabela no banco de dados no arquivo models.py
 
 ## 📋 Endpoints
 
